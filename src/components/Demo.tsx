@@ -80,7 +80,7 @@ export default function Demo() {
   }, [linkReady, secureToken, chain?.name]);
 
   const launch = useCallback(() => {
-    window.open(link, "_blank", "popup,width=540,height=700");
+    sdk.actions.openUrl(link);
   }, [link]);
 
   // New handler function to call secureTokenWrapper and then launch
