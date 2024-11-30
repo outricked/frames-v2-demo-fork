@@ -2,9 +2,6 @@ import { useEffect, useCallback, useState, useMemo } from "react";
 import sdk, { type FrameContext } from "@farcaster/frame-sdk";
 import {
   useAccount,
-  useSendTransaction,
-  useSignMessage,
-  useSignTypedData,
   useDisconnect,
   useConnect,
 } from "wagmi";
@@ -21,27 +18,6 @@ export default function Demo() {
   const [secureError, setSecureError] = useState(new Error(""))
   
   const { address, chain, isConnected } = useAccount();
-  const {
-    sendTransaction,
-    error: sendTxError,
-    isError: isSendTxError,
-    isPending: isSendTxPending,
-  } = useSendTransaction();
-
-  const {
-    signMessage,
-    error: signError,
-    isError: isSignError,
-    isPending: isSignPending,
-  } = useSignMessage();
-
-  const {
-    signTypedData,
-    error: signTypedError,
-    isError: isSignTypedError,
-    isPending: isSignTypedPending,
-  } = useSignTypedData();
-
   const { disconnect } = useDisconnect();
   const { connect } = useConnect();
 
