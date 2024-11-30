@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback, useState, useMemo } from "react";
 import sdk, { type FrameContext } from "@farcaster/frame-sdk";
 import {
   useAccount,
@@ -19,27 +19,9 @@ export default function Demo() {
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
   const [secureToken, setSecureToken] = useState("");
   const [context, setContext] = useState<FrameContext>();
-  const [isContextOpen, setIsContextOpen] = useState(false);
   const [txHash, setTxHash] = useState<string | null>(null);
-
-  const secureTokenWrapper = useCallback(async () => {
-    const response = await generateSecureToken({
-      ethAddress: "0xbFbbeDd977a055B8550fE35331069caBD8a4B265",
-      blockchains: ["ethereum"],
-    });
-    try {
-      if (response) {
-        setSecureToken(response);
-      } else {
-        setSecureToken("");
-      }
-    } catch (error) {
-      alert(error);
-      console.error(error);
-    }
-  },[])
-
-  const { address, isConnected } = useAccount();
+  
+  const { address, chain, isConnected } = useAccount();
   const {
     sendTransaction,
     error: sendTxError,
@@ -71,15 +53,19 @@ export default function Demo() {
 
   useEffect(() => {
     const load = async () => {
-      setContext(await sdk.context);
-      sdk.actions.ready();
+      try {
+        const sdkContext = await sdk.context;
+        setContext(sdkContext);
+        sdk.actions.ready();
+      } catch (error) {
+        console.error("Failed to load SDK context:", error);
+      }
     };
     if (sdk && !isSDKLoaded) {
       setIsSDKLoaded(true);
       load();
-      console.log(context)
     }
-  }, [isSDKLoaded, context]);
+  }, [isSDKLoaded]);
 
   const sendTx = useCallback(() => {
     sendTransaction(
@@ -121,6 +107,56 @@ export default function Demo() {
     return <div className="text-red-500 text-xs mt-1">{error.message}</div>;
   };
 
+  // Modified secureTokenWrapper to return the token
+  const secureTokenWrapper = useCallback(async (): Promise<string | null> => {
+    try {
+      const response = await generateSecureToken({
+        ethAddress: address!,
+        blockchains: [chain!.name!],
+      });
+      if (response) {
+        setSecureToken(response);
+        return response;
+      } else {
+        setSecureToken("");
+        return null;
+      }
+    } catch (error) {
+      alert("Failed to generate secure token.");
+      console.error("Error generating secure token:", error);
+      return null;
+    }
+  }, [address, chain]);
+
+  const linkReady = useMemo(() => secureToken.length > 0, [secureToken]);
+
+  const link = useMemo(() => {
+    if (!linkReady)
+      return "Generate a secure token first to create your one time URL";
+    return (
+      `https://pay.coinbase.com/buy/select-asset?sessionToken=${secureToken}` +
+      (chain?.name
+        ? `&defaultNetwork=${chain.name}`
+        : "") +
+      `&fiatCurrency=USDC` +
+      `&presetFiatAmount=5`
+    );
+  }, [linkReady, secureToken, chain?.name]);
+
+  const launch = useCallback(() => {
+    window.open(link, "_blank", "popup,width=540,height=700");
+  }, [link]);
+
+  // New handler function to call secureTokenWrapper and then launch
+  const handleBuyCrypto = useCallback(async () => {
+    const token = await secureTokenWrapper();
+    if (token) {
+      launch();
+    } else {
+      alert("Failed to obtain a secure token. Please try again.");
+    }
+  }, [secureTokenWrapper, launch]);
+
   if (!isSDKLoaded) {
     return <div>Loading...</div>;
   }
@@ -132,9 +168,10 @@ export default function Demo() {
       <div>
         <h2 className="font-2xl font-bold">Wallet</h2>
 
-        {address && (
+        {address && chain && (
           <div className="my-2 text-xs">
             Address: <pre className="inline">{truncateAddress(address)}</pre>
+            Chain: <pre className="inline">{chain.name}</pre>
           </div>
         )}
 
@@ -200,7 +237,7 @@ export default function Demo() {
       </div>
 
       <div>
-        <Button onClick={secureTokenWrapper}>
+        <Button onClick={handleBuyCrypto} disabled={!isConnected}>
           Buy Crypto
         </Button>
       </div>
