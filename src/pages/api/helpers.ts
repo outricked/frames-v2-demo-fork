@@ -10,10 +10,8 @@ export type createRequestParams = {
 };
 
 export async function fetchApiCredentials() {
-  const key = await import("../../../api_keys/cdp_api_key.json");
-  const key_name = key.name;
-  const key_secret = key.privateKey;
-
+  const key_name = process.env.KEY_NAME
+  const key_secret = process.env.PRIVATE_KEY
   return { key_name, key_secret };
 }
 
