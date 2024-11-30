@@ -20,6 +20,7 @@ export default function Demo() {
   const [secureToken, setSecureToken] = useState("");
   const [context, setContext] = useState<FrameContext>();
   const [txHash, setTxHash] = useState<string | null>(null);
+  const [secureError, setSecureError] = useState(new Error(""))
   
   const { address, chain, isConnected } = useAccount();
   const {
@@ -123,7 +124,7 @@ export default function Demo() {
         return null;
       }
     } catch (error) {
-      alert("Failed to generate secure token.");
+      setSecureError(new Error(error as string));
       console.error("Error generating secure token:", error);
       return null;
     }
@@ -169,10 +170,10 @@ export default function Demo() {
       <div>
         <h2 className="font-2xl font-bold">Wallet</h2>
 
-        {address && chain && (
+        {address && (
           <div className="my-2 text-xs">
             Address: <pre className="inline">{truncateAddress(address)}</pre>
-            Chain: <pre className="inline">{chain.name}</pre>
+            Chain: <pre className="inline">{chain?.name}</pre>
           </div>
         )}
 
@@ -241,6 +242,7 @@ export default function Demo() {
         <Button onClick={handleBuyCrypto} disabled={!isConnected}>
           Buy Crypto
         </Button>
+        {renderError(secureError)}
       </div>
     </div>
   );
