@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import SecureTokenBox from "~/components/SecureTokenBox";
 
 const Demo = dynamic(() => import("~/components/Demo"), {
   ssr: false,
