@@ -1,8 +1,6 @@
 import { SignOptions, sign } from "jsonwebtoken";
 import crypto from "crypto";
 import { NextApiResponse } from "next";
-import fs from "fs";
-import { Coinbase, Wallet, CoinbaseOptions } from "@coinbase/coinbase-sdk";
 
 export type createRequestParams = {
   request_method: "GET" | "POST";
@@ -41,7 +39,7 @@ export async function createRequest({
     },
   };
 
-  const jwt = sign(payload, key_secret, signOptions);
+  const jwt = sign(payload, key_secret!, signOptions);
 
   return { url, jwt };
 }

@@ -57,6 +57,7 @@ export default function Demo() {
         const sdkContext = await sdk.context;
         setContext(sdkContext);
         sdk.actions.ready();
+        console.log(context)
       } catch (error) {
         console.error("Failed to load SDK context:", error);
       }
@@ -65,7 +66,7 @@ export default function Demo() {
       setIsSDKLoaded(true);
       load();
     }
-  }, [isSDKLoaded]);
+  }, [isSDKLoaded, context]);
 
   const sendTx = useCallback(() => {
     sendTransaction(
