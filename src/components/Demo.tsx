@@ -170,10 +170,15 @@ export default function Demo() {
       <div>
         <h2 className="font-2xl font-bold">Wallet</h2>
 
+      
         {address && (
           <div className="my-2 text-xs">
-            Address: <pre className="inline">{truncateAddress(address)}</pre>
-            Chain: <pre className="inline">{chain?.name}</pre>
+            <div>
+              Address: <pre className="inline">{truncateAddress(address)}</pre>
+            </div>
+            <div>
+              Chain: <pre className="inline">{chain?.name}</pre>
+            </div>
           </div>
         )}
 
