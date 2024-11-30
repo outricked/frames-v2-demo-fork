@@ -1,4 +1,4 @@
-import { SignOptions, sign } from "jsonwebtoken";
+import { SignOptions, sign, JwtHeader } from "jsonwebtoken";
 import crypto from "crypto";
 import { NextApiResponse } from "next";
 
@@ -6,6 +6,10 @@ export type createRequestParams = {
   request_method: "GET" | "POST";
   request_path: string;
 };
+
+interface CustomJwtHeader extends JwtHeader {
+  nonce: string; // Coinbase-specific header
+}
 
 export async function fetchApiCredentials() {
   const key_name = process.env.KEY_NAME
@@ -31,12 +35,15 @@ export async function createRequest({
     uri,
   };
 
+  const customHeader: CustomJwtHeader = {
+    alg: "ES256",
+    kid: key_name,
+    nonce: crypto.randomBytes(16).toString('hex'), // Coinbase-specific header
+  };
+
   const signOptions: SignOptions = {
     algorithm: "ES256",
-    header: {
-      kid: key_name,
-      nonce: crypto.randomBytes(16).toString("hex"), // non-standard, coinbase-specific header that is necessary
-    },
+    header: customHeader,
   };
 
   const jwt = sign(payload, key_secret!, signOptions);
