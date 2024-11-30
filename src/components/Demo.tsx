@@ -114,7 +114,7 @@ export default function Demo() {
     try {
       const response = await generateSecureToken({
         ethAddress: address!,
-        blockchains: [chain!.name!],
+        blockchains: [chain!.name.toLocaleLowerCase()],
       });
       if (response) {
         setSecureToken(response);
@@ -138,7 +138,7 @@ export default function Demo() {
     return (
       `https://pay.coinbase.com/buy/select-asset?sessionToken=${secureToken}` +
       (chain?.name
-        ? `&defaultNetwork=${chain.name}`
+        ? `&defaultNetwork=${chain.name.toLocaleLowerCase()}`
         : "") +
       `&fiatCurrency=USDC` +
       `&presetFiatAmount=5`
