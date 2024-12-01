@@ -1,5 +1,6 @@
+// src/opengraph-image.tsx
+
 import { ImageResponse } from "next/og";
-import Image from "next/image";
 
 export const alt = "Farcaster Frames V2 Demo";
 export const size = {
@@ -9,7 +10,7 @@ export const size = {
 
 export const contentType = "image/png";
 
-export default async function OpenGraphImage() {
+export default async function Image() {
   return new ImageResponse(
     (
       <div
@@ -25,8 +26,8 @@ export default async function OpenGraphImage() {
         }}
       >
         {/* Render the Image from the public folder */}
-        <Image
-          src="/crypto_onramp.webp"
+        <img
+          src={`https://my-frames-v2-demo.vercel.app/crypto_onramp.webp`}
           alt="Coinbase Onramp"
           style={{
             maxWidth: "100%",
