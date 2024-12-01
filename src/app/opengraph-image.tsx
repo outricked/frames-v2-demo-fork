@@ -12,7 +12,7 @@ export default async function Image() {
   return new ImageResponse(
     (
       <div tw="h-full w-full flex flex-col justify-center items-center relative">
-        <h1 tw="text-6xl">Coinbase Onramp</h1>
+        <h1 tw="text-6xl text-white">Coinbase Onramp</h1>
       </div>
     ),
     {
