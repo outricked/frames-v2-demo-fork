@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useState, useMemo } from "react";
+import { useEffect, useCallback, useState } from "react";
 import sdk, { type FrameContext } from "@farcaster/frame-sdk";
 import {
   useAccount,
@@ -13,7 +13,6 @@ import { generateSecureToken } from "../utils/queries";
 
 export default function Demo() {
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
-  const [secureToken, setSecureToken] = useState("");
   const [context, setContext] = useState<FrameContext>();
   const [secureError, setSecureError] = useState(new Error(""))
   
@@ -51,10 +50,8 @@ export default function Demo() {
         blockchains: [chain!.name.toLocaleLowerCase()],
       });
       if (response) {
-        setSecureToken(response);
         return response;
       } else {
-        setSecureToken("");
         return null;
       }
     } catch (error) {
@@ -64,35 +61,23 @@ export default function Demo() {
     }
   }, [address, chain]);
 
-  const linkReady = useMemo(() => secureToken.length > 0, [secureToken]);
-
-  const link = useMemo(() => {
-    if (!linkReady)
-      return "Generate a secure token first to create your one time URL";
-    return (
-      `https://pay.coinbase.com/buy/select-asset?sessionToken=${secureToken}` +
-      (chain?.name
-        ? `&defaultNetwork=${chain.name.toLocaleLowerCase()}`
-        : "") +
-      `&fiatCurrency=USDC` +
-      `&presetFiatAmount=5`
-    );
-  }, [linkReady, secureToken, chain?.name]);
-
-  const launch = useCallback(async () => {
-    console.log(link)
-    window.location.href = link
-  }, [link]);
-
   // New handler function to call secureTokenWrapper and then launch
   const handleBuyCrypto = useCallback(async () => {
     const token = await secureTokenWrapper();
     if (token) {
-      launch();
+      const constructedLink =
+      `https://pay.coinbase.com/buy/select-asset?sessionToken=${token}` +
+      (chain?.name
+        ? `&defaultNetwork=${chain.name.toLocaleLowerCase()}`
+        : "") +
+      `&fiatCurrency=USDC` +
+      `&presetFiatAmount=5`;
+      console.log(constructedLink);
+      window.location.href = constructedLink;
     } else {
       alert("Failed to obtain a secure token. Please try again.");
     }
-  }, [secureTokenWrapper, launch]);
+  }, [secureTokenWrapper, chain?.name]);
 
   if (!isSDKLoaded) {
     return <div>Loading...</div>;
