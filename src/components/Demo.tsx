@@ -80,6 +80,7 @@ export default function Demo() {
   }, [linkReady, secureToken, chain?.name]);
 
   const launch = useCallback(async () => {
+    console.log(link)
     window.location.href = link
   }, [link]);
 
