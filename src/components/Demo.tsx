@@ -65,8 +65,7 @@ export default function Demo() {
       `&fiatCurrency=USD` +
       `&presetFiatAmount=${fiatValue}` + 
       `&defaultAsset=${cryptoCurrency}` +
-      `&redirectUrl=${encodeURIComponent("https://my-frames-v2-demo.vercel.app/")}` +
-      `&defaultPaymentMethod=APPLE_PAY`;
+      `&redirectUrl=${encodeURIComponent("https://my-frames-v2-demo.vercel.app/")}`;
       console.log(constructedLink);
       window.location.href = constructedLink;
     } else {
