@@ -8,15 +8,15 @@ export const size = {
   height: 800,
 };
 
-export const contentType = "image/png";
+export const contentType = "image/webp"; // Updated to match the image format
 
 export default async function Image() {
   return new ImageResponse(
     (
       <div
         style={{
-          height: "800",
-          width: "800",
+          height: 800, // Changed from "800" to 800
+          width: 800,  // Changed from "800" to 800
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
@@ -25,13 +25,15 @@ export default async function Image() {
           backgroundColor: "#000", // Optional: Set a background color
         }}
       >
-        {/* Render the Image from the public folder */}
+        {/* Render the Image from the public folder using a relative path */}
         <img
-          src={`https://my-frames-v2-demo.vercel.app/crypto_onramp.webp`}
+          src="/crypto_onramp.webp" // Changed to relative path
           alt="Coinbase Onramp"
+          width={800}  // Explicit width
+          height={800} // Explicit height
           style={{
-            maxWidth: "800",
-            maxHeight: "800",
+            maxWidth: 800,  // Changed from "800" to 800
+            maxHeight: 800, // Changed from "800" to 800
             objectFit: "contain",
           }}
         />
