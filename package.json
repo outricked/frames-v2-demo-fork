@@ -8,11 +8,13 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "type": "module",
   "dependencies": {
     "@coinbase/coinbase-sdk": "^0.11.0",
     "@farcaster/frame-sdk": "^0.0.2",
     "@nextui-org/react": "^2.4.8",
     "@tanstack/react-query": "^5.61.0",
+    "ethers": "v5.7",
     "framer-motion": "^11.12.0",
     "global": "^4.4.0",
     "jsonwebtoken": "^9.0.2",
