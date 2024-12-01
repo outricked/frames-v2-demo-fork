@@ -12,7 +12,8 @@ import { Input } from "~/components/ui/Input";
 export default function Demo() {
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
   const [context, setContext] = useState<FrameContext>();
-  const [fiatValue, setFiatValue] = useState("");
+  const [fiatValue, setFiatValue] = useState("5");
+  const [cryptoCurrency, setCryptoCurrency] = useState("USDC");
   
   const { address, chain } = useAccount();
 
@@ -62,15 +63,16 @@ export default function Demo() {
         : "") +
       `&fiatCurrency=USD` +
       `&presetFiatAmount=${fiatValue}` + 
-      `&defaultAsset=USDC` +
+      `&defaultAsset=${cryptoCurrency}` +
       `&redirectUrl=${encodeURIComponent("https://my-frames-v2-demo.vercel.app/")}` +
       `&defaultPaymentMethod=APPLE_PAY`;
       console.log(constructedLink);
       window.location.href = constructedLink;
     } else {
-      alert("Failed to generate Onramp URL");
+      alert("Failed to generate Onramp URL. Asset or Network is unsupported");
     }
-  }, [secureTokenWrapper, chain?.name, fiatValue]);
+  }, [secureTokenWrapper, chain?.name, fiatValue, cryptoCurrency]);
+
 
   if (!isSDKLoaded) {
     return <div>Loading...</div>;
@@ -95,7 +97,7 @@ export default function Demo() {
 
       <br></br>
       <div>
-      <h2 className="font-2xl font-bold">Enter USD amount</h2>
+      <h2 className="font-2xl font-bold">Enter USD amount - Default is 5</h2>
       <Input
         id="amount"
         type="text"
@@ -105,21 +107,20 @@ export default function Demo() {
       />
       
       <br></br>
-      <h2 className="font-2xl font-bold">Enter Crypto Asset</h2>
+      <h2 className="font-2xl font-bold">Enter Crypto Asset - Default is USDC</h2>
         <Input
           id="amount"
           type="text"
-          value={fiatValue}
-          onChange={(e) => setFiatValue(e.target.value)}
-          placeholder="5"
+          value={cryptoCurrency}
+          onChange={(e) => setCryptoCurrency(e.target.value)}
+          placeholder="USDC"
         />
       </div>
       <br></br>
-      <div className="flex justify-center items-center min-h-screen bg-gray-100">
-    </div>
       <div>
+      <h2 className="font-2xl font-bold">Buy ${fiatValue} of {cryptoCurrency} to {chain?.name}</h2>
         <Button onClick={handleBuyCrypto}>
-          Buy {fiatValue} USDC to {chain?.name}
+          Checkout
         </Button>
       </div>
     </div>

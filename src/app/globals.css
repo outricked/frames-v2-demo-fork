@@ -19,3 +19,7 @@ body {
   background: var(--background);
   font-family: 'Inter', Helvetica, Arial, sans-serif;
 }
+
+body {
+  @apply bg-black text-white min-h-screen;
+}
