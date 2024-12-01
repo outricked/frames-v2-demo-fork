@@ -58,6 +58,7 @@ export default function Demo() {
     if (token) {
       const constructedLink =
       `https://pay.coinbase.com/buy/select-asset?sessionToken=${token}` +
+      `&appId=abb63a3b-5949-4ee7-8adc-c086d24c8aa6` +
       (chain?.name
         ? `&defaultNetwork=${chain.name.toLocaleLowerCase()}`
         : "") +
