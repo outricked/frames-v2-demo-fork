@@ -10,11 +10,12 @@ import { config } from "~/components/providers/WagmiProvider";
 import { Button } from "~/components/ui/Button";
 import { truncateAddress } from "~/lib/truncateAddress";
 import { generateSecureToken } from "../utils/queries";
+import { Input } from "./ui/Input";
 
 export default function Demo() {
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
   const [context, setContext] = useState<FrameContext>();
-  const [secureError, setSecureError] = useState(new Error(""))
+  const [fiatValue, setFiatValue] = useState(5);
   
   const { address, chain, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
@@ -37,11 +38,6 @@ export default function Demo() {
     }
   }, [isSDKLoaded, context]);
 
-  const renderError = (error: Error | null) => {
-    if (!error) return null;
-    return <div className="text-red-500 text-xs mt-1">{error.message}</div>;
-  };
-
   // Modified secureTokenWrapper to return the token
   const secureTokenWrapper = useCallback(async (): Promise<string | null> => {
     try {
@@ -55,7 +51,6 @@ export default function Demo() {
         return null;
       }
     } catch (error) {
-      setSecureError(new Error(error as string));
       console.error("Error generating secure token:", error);
       return null;
     }
@@ -70,14 +65,14 @@ export default function Demo() {
       (chain?.name
         ? `&defaultNetwork=${chain.name.toLocaleLowerCase()}`
         : "") +
-      `&fiatCurrency=USDC` +
-      `&presetFiatAmount=5`;
+      `&fiatCurrency=USD` +
+      `&presetFiatAmount=${fiatValue}`;
       console.log(constructedLink);
       window.location.href = constructedLink;
     } else {
-      alert("Failed to obtain a secure token. Please try again.");
+      alert("Failed to generate Onramp URL");
     }
-  }, [secureTokenWrapper, chain?.name]);
+  }, [secureTokenWrapper, chain?.name, fiatValue]);
 
   if (!isSDKLoaded) {
     return <div>Loading...</div>;
@@ -92,10 +87,10 @@ export default function Demo() {
         {address && (
           <div className="my-2 text-xs">
             <div>
-              Address: <pre className="inline">{truncateAddress(address)}</pre>
+              Detected Address: <pre className="inline">{truncateAddress(address)}</pre>
             </div>
             <div>
-              Chain: <pre className="inline">{chain?.name}</pre>
+              Detected Chain: <pre className="inline">{chain?.name}</pre>
             </div>
           </div>
         )}
@@ -113,11 +108,19 @@ export default function Demo() {
         </div>
       </div>
 
+      <Input
+        label="Amount"
+        id="amount"
+        type="number"
+        value={fiatValue}
+        onChange={(e) => setFiatValue(Number(e.target.value))}
+        placeholder="Enter amount of USD you want to buy"
+      />
+
       <div>
         <Button onClick={handleBuyCrypto}>
-          Buy Crypto
+          Buy {fiatValue} USD to address on {chain?.name}
         </Button>
-        {renderError(secureError)}
       </div>
     </div>
   );
