@@ -27,7 +27,7 @@ export default async function Image() {
       >
         {/* Render the Image from the public folder using a relative path */}
         <img
-          src="https://my-frames-v2-demo.vercel.app/crypto_onramp.webp" // Changed to relative path
+          src="https://onramp-frame.vercel.app/crypto_onramp.webp" // Changed to relative path
           alt="Coinbase Onramp"
           width={800}  // Explicit width
           height={800} // Explicit height

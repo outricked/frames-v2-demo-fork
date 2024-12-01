@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import App from "./app";
 
-const appUrl = "https://my-frames-v2-demo.vercel.app";
+const appUrl = "https://onramp-frame.vercel.app";
 
 const frame = {
   version: "next",
