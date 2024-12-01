@@ -30,8 +30,8 @@ export default async function Image() {
           src={`https://my-frames-v2-demo.vercel.app/crypto_onramp.webp`}
           alt="Coinbase Onramp"
           style={{
-            maxWidth: "100%",
-            maxHeight: "100%",
+            maxWidth: "800",
+            maxHeight: "800",
             objectFit: "contain",
           }}
         />
