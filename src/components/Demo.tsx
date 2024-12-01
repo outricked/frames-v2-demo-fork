@@ -1,5 +1,4 @@
 import { useEffect, useCallback, useState, useMemo } from "react";
-import InAppBrowser from 'react-native-inappbrowser-reborn';
 import sdk, { type FrameContext } from "@farcaster/frame-sdk";
 import {
   useAccount,
@@ -81,25 +80,7 @@ export default function Demo() {
   }, [linkReady, secureToken, chain?.name]);
 
   const launch = useCallback(async () => {
-      try {
-        if (await InAppBrowser.isAvailable()) {
-          await InAppBrowser.open(link, {
-            // iOS Properties
-            dismissButtonStyle: 'cancel',
-            preferredBarTintColor: '#453AA4',
-            preferredControlTintColor: 'white',
-            readerMode: false,
-            // Android Properties
-            showTitle: true,
-            toolbarColor: '#6200EE',
-            secondaryToolbarColor: 'black',
-            enableUrlBarHiding: true,
-            enableDefaultShare: true,
-          });
-        }
-      } catch (error) {
-        console.error(error);
-      }
+    window.location.href = link
   }, [link]);
 
   // New handler function to call secureTokenWrapper and then launch
