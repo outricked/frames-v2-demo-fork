@@ -22,9 +22,9 @@ export const revalidate = 300;
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Onramp Demo",
+    title: "Onramp Crypto",
     openGraph: {
-      title: "Onramp Demo",
+      title: "Onramp Crypto to Farcaster",
       description: "app to buy crypto",
     },
     other: {
