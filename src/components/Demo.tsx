@@ -66,7 +66,8 @@ export default function Demo() {
         ? `&defaultNetwork=${chain.name.toLocaleLowerCase()}`
         : "") +
       `&fiatCurrency=USD` +
-      `&presetFiatAmount=${fiatValue}`;
+      `&presetFiatAmount=${fiatValue}` + 
+      `&redirectUrl=${encodeURIComponent("https://my-frames-v2-demo.vercel.app/")}`;
       console.log(constructedLink);
       window.location.href = constructedLink;
     } else {
@@ -81,7 +82,6 @@ export default function Demo() {
   return (
     <div className="w-[300px] mx-auto py-4 px-2">
       <h1 className="text-2xl font-bold text-center mb-4">Frames v2 Demo</h1>
-
       <div>
         <h2 className="font-2xl font-bold">Wallet</h2>
         {address && (
