@@ -1,5 +1,5 @@
 export async function GET() {
-  const appUrl = process.env.NEXT_PUBLIC_URL;
+  const appUrl = "https://my-frames-v2-demo.vercel.app/";
 
   const config = {
     accountAssociation: {
@@ -9,7 +9,7 @@ export async function GET() {
     },
     frame: {
       version: "0.0.0",
-      name: "Frames v2 Onramp Demo",
+      name: "Frames v2 Onramp",
       iconUrl: `${appUrl}/icon.png`,
       splashImageUrl: `${appUrl}/splash.png`,
       splashBackgroundColor: "#f7f7f7",
