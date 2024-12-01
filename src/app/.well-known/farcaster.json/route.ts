@@ -8,7 +8,7 @@ export async function GET() {
       signature: 'IjB4MzlkNjZiYjNiZmUzZTJkN2VlNTI0OWNkYjBjYzk4OTFmNTg1ZTkwMDM3OTcyNWI3NTgyZGIxZTk4ZTQxMjVkMzIxMTI0YTE5YTUzNGNmYzU3YWM2MjczMTBkN2IxMzJhYmUwMWM1ODdiMzlhNDg4MDE0OTE0YjQwNDVkZDU5MjgxYiI',
     },
     frame: {
-      version: "0.0.0",
+      version: "0.0.1",
       name: "Frames v2 Onramp",
       iconUrl: `${appUrl}/icon.png`,
       splashImageUrl: `${appUrl}/splash.png`,
