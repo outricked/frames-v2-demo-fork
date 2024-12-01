@@ -1,5 +1,5 @@
 export async function GET() {
-  const appUrl = "https://my-frames-v2-demo.vercel.app/";
+  const appUrl = "https://my-frames-v2-demo.vercel.app";
 
   const config = {
     accountAssociation: {
