@@ -5,7 +5,7 @@ const appUrl = "https://onramp-frame.vercel.app";
 
 const frame = {
   version: "next",
-  imageUrl: `${appUrl}/opengraph-image`,
+  imageUrl: `${appUrl}/crypto_onramp.webp`,
   button: {
     title: "Launch Frame",
     action: {
