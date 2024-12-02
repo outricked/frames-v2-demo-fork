@@ -1,12 +1,12 @@
 import Image from 'next/image'
  
-export default function Page() {
+export default function Picture() {
   return (
     <div>
       <Image
         src="/crypto_onramp.png"
-        width={500}
-        height={500}
+        width={800}
+        height={800}
         alt="Crypto Onramp"
       />
     </div>
