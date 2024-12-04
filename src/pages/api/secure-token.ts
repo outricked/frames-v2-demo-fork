@@ -15,7 +15,7 @@ export default async function handler(
     destination_wallets: [
       {
         address: reqBody.ethAddress,
-        blockchains: reqBody.blockchains || ["base", "ethereum"],
+        blockchains: reqBody.blockchains || ["base"],
       },
     ],
   };
